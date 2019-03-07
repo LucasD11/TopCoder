@@ -1,0 +1,172 @@
+-- Example 0
+Th EProblem
+11
+5
+46
+55
+75
+101
+130
+453
+531
+692
+780
+1003
+3
+the
+problem
+th
+
+ThE Problem
+-- Example 1
+TH EPROBLEM
+11
+5
+46
+55
+99
+101
+130
+453
+531
+692
+780
+1003
+2
+the
+problem
+
+TH EPROBLEM
+-- Example 2
+TH Eproblem
+11
+5
+46
+55
+59
+101
+130
+453
+531
+692
+780
+1003
+4
+the
+problem
+th
+eproblem
+
+TH Eproblem
+-- Example 3
+onc eupo n atime
+16
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+4
+once
+upon
+a
+time
+
+onc eupo n atime
+-- Example 4
+Th eQuic kBrown Fox JUMPE Dover
+31
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+170
+180
+280
+380
+480
+580
+680
+780
+880
+980
+1080
+1180
+1280
+1380
+1480
+9
+the
+quick
+brown
+fox
+quic
+jumped
+over
+ox
+jump
+
+The Quick Brown Fox JUMPE Dover
+-- Example 5
+a bbb aab a b
+13
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+3
+ab
+bba
+bbba
+
+a bbba ab a b
+-- Example 6
+ab cd ef
+8
+1
+2
+3
+4
+5
+6
+27
+28
+4
+abc
+d
+de
+f
+
+abc d ef

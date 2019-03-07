@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TopCoder 2004 TCCC Semifinal Round 3 - 250: AutoFix</title>
+    
+    <link type="image/x-icon" rel="shortcut icon" href="http://www.topcoder.com/i/favicon.ico"/>
+    
+
+    
+    <style type="text/css">
+        /* font */
+body {
+    font-family: Helvetica, Arial, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.2em;
+}
+ul.constraints > li:before, ul.notes > li:before {
+    font-family: monospace;
+    font-weight: normal;
+}
+.heading {
+    font-weight: bold;
+    font-size: 175%;
+    line-height: 1.2em;
+}
+.section .section-title {
+    font-weight: bold;
+    font-size: 125%;
+}
+ol.testcases > li:before {
+    font-family: monospace;
+}
+type {
+    font-weight: bold;
+    font-family: monospace;
+}
+li.testcase .data {
+    font-family: monospace;
+    line-height: 1.5em;
+}
+
+/* layout */
+.heading {
+    margin-top: 0.1em;
+    margin-bottom:0.1em;
+    text-align: center;
+}
+.section .section-title {
+    margin-top : 1em;
+    margin-bottom: 1em;
+}
+.problem-intro, note, user-constraint {
+    padding-left: 1.25em;
+}
+
+/* Lists */
+ul.constraints, ul.notes, ul.variables, ul.problem-definition-lines {
+    list-style-type: none;
+    padding: 0px;
+}
+ul.constraints > li:before {
+    content: "-";
+    position:relative;
+    margin-left: 0px; /* optional, for multiline li element */
+    left: 0.625em;
+}
+ul.notes > li:before {
+    content: "-";
+    position:relative;
+    margin-left: 0px; /* optional, for multiline li element */
+    left: 0.625em;
+}
+
+/* Testcases */
+li.testcase {
+    line-height: 1.1em;
+    padding-top: 0.625em;
+    padding-bottom: 0.625em;
+    overflow: auto;
+}
+li.testcase > .testcase-content > div { padding-bottom: 0.5em; padding-left: 1em; }
+
+li.testcase .testcase-comment {
+    margin: 0;
+    padding-left: 1em;
+}
+.testcase-comment p:first-child { margin-top: 0; }
+.testcase-comment p:last-child { margin-bottom: 0; }
+
+li.testcase .testcase-content {
+    margin: 0.31em;
+}
+
+/* Data and variables */
+.testcase-output {
+    padding: 0.2em 1em 0.2em 0em;
+}
+.variables, .testcase-output {
+    margin-left: 0.5em;
+    display: table;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+.variable {
+    display: table-row;
+}
+.variable .name {
+    padding: 0.2em 0em 0.2em 1em;
+    font-weight: bold;
+    display: table-cell;
+    text-align: right;
+}
+.testcase-output .prefix {
+    padding: 0.2em 0em 0.2em 1em;
+    display: table-cell;
+}
+.testcase-output .prefix:after {
+    content : ":";
+    padding-right: 0.5em;
+}
+.variable .name:after {
+    font-weight: bold;
+    content : ":";
+    padding-right: 0.5em;
+}
+.variable .value, .testcase-output .value {
+    padding: 0.2em 1em 0.2em 0em;
+    display: table-cell;
+}
+ol.testcases {
+    padding: 0px;
+    counter-reset: test_number -1;
+}
+ol.testcases > li {
+    list-style:none;
+}
+ol.testcases > li:before {
+    counter-increment:test_number;
+    display: block;
+    clear: both;
+    content:counter(test_number) ")";
+    color: inherit;
+    background: inherit;
+}
+
+/* Problem Definition */
+.problem-definition, .problem-limits {
+    padding-left: 1.25em;
+}
+.problem-definition-lines, .limit-lines {
+    display: table;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
+.definition-line, .limit-line {
+    display: table-row;
+    height: 1.5em;
+    overflow: auto;
+}
+.limit-name:after {
+    content: ":";
+    margin-right: 1em;
+}
+.definition-name, .definition-value, .limit-name, .limit-value {
+    display: table-cell;
+}
+.definition-value {
+    padding-left: 0.5em;
+}
+.definition-name:after {
+    content: ":";
+}
+#contest-division:before {
+    content: "Div ";
+}
+#problem-score:before {
+    content: "- Problem ";
+}
+#problem-name {
+    display: block;
+}
+
+/* Tags, hidden default */
+.tag {
+    visibility: hidden;
+    position: absolute;
+}
+
+        body {
+    /* font color */
+    color: #333333;
+    /* background color */
+    background-color: white;
+}
+.section .section-title {
+    /* title color */
+    color: black;
+}
+li.testcase .data {
+    /* highlight color */
+    background: #eee;
+}
+
+    </style>
+    
+    
+    
+
+</head>
+
+<body>
+    <h1 class="heading">
+        <span id='contest-name'>2004 TCCC Semifinal Round 3</span>
+        
+        <span id='problem-score'>250</span>
+        <span id='problem-name'>AutoFix</span>
+    </h1>
+
+    <hr />
+
+    <!-- Problem Statement -->
+    <div class="section">
+        <h2 class="section-title">Problem Statement</h2>
+        <div class="problem-intro">
+            <intro>Modern word processors often auto-correct certain commonly occurring typos.  For example, if you type in <tt>&quot;teh&quot;</tt> it might be automatically corrected to <tt>&quot;the&quot;</tt>.  Sometimes, this can be annoying if you really want to type <tt>&quot;teh&quot;</tt> (perhaps it is an acronym).  In this problem we are going to correct a specific kind of typing error.  We will be looking for instances where someone types in two words (a word is a sequence of letters that is surrounded on both sides by a space and/or the edge of the <type>String</type>) as <tt>&quot;xxxxx xyyyyy&quot;</tt>, when they meant <tt>&quot;xxxxxx yyyyy&quot;</tt>.  Here, <tt>&quot;xxxxxx&quot;</tt> and <tt>&quot;yyyyy&quot;</tt> represent two words in our <b>dictionary</b>.  For example, if someone types in <tt>&quot;th eproblem&quot;</tt>, we might correct it to <tt>&quot;the problem&quot;</tt>.  But, to avoid the annoying situation mentioned above, we will only make the correction when the last letter of the first word is typed 20 milliseconds or less after the preceding space.  In other words, we want to make the correction only when a person <i>almost</i> types the characters in the right order, but his timing is just a little off.  Furthermore, we only want to make the correction if at least one of the two words is not already in our dictionary, and both of the words after the transformation are in our dictionary.  Thus, for example, if &quot;th&quot; and &quot;eproblem&quot; were both in the dictionary as valid words, we would not make the transformation, even if &quot;the&quot; and &quot;problem&quot; were also in the dictionary.
+<br /><br />
+You will be given a <type>String</type>, <b>sentence</b>, representing the characters typed.  You will also be given a <type>int[]</type>, <b>times</b> representing the times (in milliseconds) since the start of typing that each key was pressed.  Each character in <b>sentence</b> corresponds to the element of <b>times</b> with the same index.  You will also be given a <type>String[]</type>, <b>dictionary</b>, which represents a list of words (all in lowercase).  Your task is to make the transformation mentioned above, ignoring the case of the characters in <b>sentence</b>, and starting from the beginning of <b>sentence</b> and moving forward.  Though you should ignore case in determining whether or not to make the transformation, you should still preserve the cases of the letters in <b>sentence</b>  (see examples).  You should change the <b>sentence</b> as you go, and do so in one pass from left to right (see examples 4 and 5).</intro>
+        </div>
+    </div>
+    
+    <!-- Problem definition -->
+    
+    <div class="section" id="definition">
+        <h2 class="section-title">Definition</h2>
+        <div class="problem-definition">
+            <ul class="problem-definition-lines">
+                <li class="definition-line" id='class-line'>
+                    <span class='definition-name'>Class</span>
+                    <span class='definition-value'>AutoFix</span>
+                </li>
+                <li class="definition-line" id='method-line'>
+                    <span class='definition-name'>Method</span>
+                    <span class='definition-value'>fix</span>
+                </li>
+                <li class="definition-line" id='parameters-line'>
+                    <span class='definition-name'>Parameters</span>
+                    <span class='definition-value'>
+                    
+                        string
+                    , 
+                        tuple(integer)
+                    , 
+                        tuple(string)
+                    
+                    </span>
+                </li>
+                <li class="definition-line" id='returns-line'>
+                    <span class='definition-name'>Returns</span>
+                    <span class='definition-value'>
+                        string
+                    </span>
+                </li>
+                <li class="definition-line" id='signature-line'>
+                    <span class='definition-name'>Method signature</span>
+                    <span class='definition-value'>
+                        def fix(self, sentence, times, dictionary)
+                    </span>
+                </li>
+            </ul>
+            <div class="problem-definition-public-tip">(be sure your method is public)</div>
+        </div>        
+    </div>
+    
+
+    <!-- Limits -->
+    <div class="section">
+        <h2 class="section-title">Limits</h2>
+        <div class='problem-limits'>
+            <ul class="limit-lines">
+                <li class='limit-line'>
+                    <span class='limit-name'>Time limit (s)</span>
+                    <span class='limit-value'>2.000</span>
+                </li>
+                <li class='limit-line'>
+                    <span class='limit-name'>Memory limit (MB)</span>
+                    <span class='limit-value'>64</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    
+    <!-- Notes -->
+    <div class="section">
+        <h2 class="section-title">Notes</h2>
+        <ul class="notes">
+        
+            <li><note>The words in <b>dictionary</b> are all lowercase, but applying the transformation should be done without regard to case (see examples)</note></li>
+        
+        </ul>
+    </div>
+    
+    
+    <!-- Constraints -->
+    <div class="section">
+        <h2 class="section-title">Constraints</h2>
+        <ul class="constraints">
+        
+            <li><user-constraint><b>dictionary</b> will contain between 1 and 50 elements, inclusive.</user-constraint></li>
+        
+            <li><user-constraint>Each element of <b>dictionary</b> will contain between 1 and 50 lowercase letters ('a'-'z'), inclusive.</user-constraint></li>
+        
+            <li><user-constraint><b>sentence</b> will contain between 1 and 50 characters, inclusive.</user-constraint></li>
+        
+            <li><user-constraint>Each character of <b>sentence</b> will be a letter ('a'-'z' or 'A'-'Z') or a space (' ').</user-constraint></li>
+        
+            <li><user-constraint>There will be no leading, trailing, or double spaces in <b>sentence</b>.</user-constraint></li>
+        
+            <li><user-constraint><b>times</b> will contain the same number of elements as <b>sentence</b> has characters.</user-constraint></li>
+        
+            <li><user-constraint>Each element of <b>times</b> will be between 0 and 1,000,000, inclusive.</user-constraint></li>
+        
+            <li><user-constraint><b>times</b> will be sorted in strictly ascending order.</user-constraint></li>
+        
+        </ul>
+    </div>
+
+    <!-- Test cases -->
+    <div class="section">
+        <h2 class="section-title">Test cases</h2>
+        <ol class="testcases" start='0'>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">sentence</span>
+                                <span class="value data">
+                                
+                                    &quot;Th EProblem&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">times</span>
+                                <span class="value data">
+                                
+                                    { 5, 46, 55, 75, 101, 130, 453, 531, 692, 780, 1003 }
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">dictionary</span>
+                                <span class="value data">
+                                
+                                    { &quot;the&quot;, &quot;problem&quot;, &quot;th&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            &quot;ThE Problem&quot;
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">The space is typed after 55 milliseconds, while the 'e' is typed after 75.  Since these are within 20 milliseconds of each other, they may be swapped.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">sentence</span>
+                                <span class="value data">
+                                
+                                    &quot;TH EPROBLEM&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">times</span>
+                                <span class="value data">
+                                
+                                    { 5, 46, 55, 99, 101, 130, 453, 531, 692, 780, 1003 }
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">dictionary</span>
+                                <span class="value data">
+                                
+                                    { &quot;the&quot;, &quot;problem&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            &quot;TH EPROBLEM&quot;
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">Here the 'E' is typed 44 milliseconds after the space and hence may not be swapped.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">sentence</span>
+                                <span class="value data">
+                                
+                                    &quot;TH Eproblem&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">times</span>
+                                <span class="value data">
+                                
+                                    { 5, 46, 55, 59, 101, 130, 453, 531, 692, 780, 1003 }
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">dictionary</span>
+                                <span class="value data">
+                                
+                                    { &quot;the&quot;, &quot;problem&quot;, &quot;th&quot;, &quot;eproblem&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            &quot;TH Eproblem&quot;
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">Though the 'E' and the space are typed within 20 milliseconds of each other, both &quot;th&quot; and &quot;eproblem&quot; are in the dictionary, so no swap occurs.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">sentence</span>
+                                <span class="value data">
+                                
+                                    &quot;onc eupo n atime&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">times</span>
+                                <span class="value data">
+                                
+                                    { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160 }
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">dictionary</span>
+                                <span class="value data">
+                                
+                                    { &quot;once&quot;, &quot;upon&quot;, &quot;a&quot;, &quot;time&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            &quot;onc eupo n atime&quot;
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">Note that if we applied the transformation at all of the spaces, we would end up with 4 valid words, but our algorithm only does one pair at a time, and hence can do nothing here.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">sentence</span>
+                                <span class="value data">
+                                
+                                    &quot;Th eQuic kBrown Fox JUMPE Dover&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">times</span>
+                                <span class="value data">
+                                
+                                    { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 280, 380, 480, 580, 680, 780, 880, 980, 1080, 1180, 1280, 1380, 1480 }
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">dictionary</span>
+                                <span class="value data">
+                                
+                                    { &quot;the&quot;, &quot;quick&quot;, &quot;brown&quot;, &quot;fox&quot;, &quot;quic&quot;, &quot;jumped&quot;, &quot;over&quot;, &quot;ox&quot;, &quot;jump&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            &quot;The Quick Brown Fox JUMPE Dover&quot;
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">Originally, we can't swap the space and the 'k' to form &quot;eQuick&quot;, because that is not in the dictionary.  However, since we are working from left to right, and changing the sentence as we go, we move the 'e' to form &quot;The&quot;, (as &quot;quic&quot; is in the dictionary) and then when we look at the 'k', we are allowed to move it.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">sentence</span>
+                                <span class="value data">
+                                
+                                    &quot;a bbb aab a b&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">times</span>
+                                <span class="value data">
+                                
+                                    { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">dictionary</span>
+                                <span class="value data">
+                                
+                                    { &quot;ab&quot;, &quot;bba&quot;, &quot;bbba&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            &quot;a bbba ab a b&quot;
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">Notice that, after we apply the transformation between the second and third words, if we started over we would apply the transformation between the first and second words.  However, we are applying transformations in one pass, from left to right, so we don't go back and do this.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">sentence</span>
+                                <span class="value data">
+                                
+                                    &quot;ab cd ef&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">times</span>
+                                <span class="value data">
+                                
+                                    { 1, 2, 3, 4, 5, 6, 27, 28 }
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">dictionary</span>
+                                <span class="value data">
+                                
+                                    { &quot;abc&quot;, &quot;d&quot;, &quot;de&quot;, &quot;f&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            &quot;abc d ef&quot;
+                        
+                        </span>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+        </ol>
+    </div>
+    <hr />
+
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2003, TopCoder, Inc. All rights reserved.
+</body>
+</html>
