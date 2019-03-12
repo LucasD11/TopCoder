@@ -3,13 +3,17 @@ import math,string,itertools,fractions,heapq,collections,re,array,bisect
 
 class ZigZag:
     def longestZigZag(self, sequence):
-        lengths = [0 for _ in sequence]
-        for i, val in enumerate(sequence):
-            l = 1
+        increase = [1 for _ in sequence]
+        decrease = [1 for _ in sequence]
+
+        for i, num in enumerate(sequence):
             for j in range(i):
-                if lengths[j] == 1:
-                    pass
-        return 0
+                if num < sequence[j]:
+                    decrease[i] = max(decrease[i], increase[j] + 1)
+                elif num > sequence[j]:
+                    increase[i] = max(increase[i], decrease[j] + 1)
+
+        return max(increase + decrease)
 
 # CUT begin
 # TEST CODE FOR PYTHON {{{
