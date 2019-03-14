@@ -1,41 +1,54 @@
 # -*- coding: utf-8 -*-
-"""
-height, bloom, wilt
-"""
 import math,string,itertools,fractions,heapq,collections,re,array,bisect
 
+
+class Flower:
+    def __init__(self, height, bloom, wilt):
+        self.height = height
+        self.bloom = bloom
+        self.wilt = wilt
+        self.deps = []
+
+    def remove_dependencies(self, value):
+        if value in self.deps:
+            self.deps.remove(value)
+
 class FlowerGarden:
-    # TODO: Why is this problem a DP problem
-    # TODO: Code is not elegant
-    def _intersect(self, i, j, x, y):
-        return not(j < x or y < i)
+    def _max_without_deps(self, flowers):
+        result = None
+        for flower in flowers:
+            if flower.deps:
+                continue
+            if result is None or result.height < flower.height:
+                result = flower
+        return result
+
+    def _add_deps(self, flowers):
+         for f1 in flowers:
+            for f2 in flowers:
+                if f1 is f2:
+                    continue
+                if f1.height > f2.height:
+                    continue
+                if self._intersect(f1, f2):
+                    f2.deps.append(f1.height)
+
+    def _intersect(self, f1, f2):
+        return not (f1.wilt < f2.bloom or f2.wilt < f1.bloom)
 
     def getOrdering(self, height, bloom, wilt):
-        flowers = [[i, j, k, []] for i, j, k in zip(height, bloom, wilt)]
-        flowers.sort(key=lambda x:x[0], reverse=True)
-        for i, flower in enumerate(flowers):
-            for j in range(i+1, len(flowers)):
-                f2 = flowers[j]
-                if self._intersect(flower[1], flower[2], f2[1], f2[2]):
-                    flower[3].append(f2[0])
+        flowers = [Flower(h, b, w) for h, b, w in zip(height, bloom, wilt)]
+        self._add_deps(flowers)
 
         order = []
         while flowers:
-            choises = [i for i in flowers if not i[3]]
-            choises.sort(key=lambda x:x[0], reverse=True)
-            removed = choises[0]
-            h = removed[0]
-            for flower in flowers:
-                if h in flower[3]:
-                    flower[3].remove(h)
-            order.append(h)
+            next_flower = self._max_without_deps(flowers)
 
-            index = 0
-            for i, flower in enumerate(flowers):
-                if flower[0] == h:
-                    index = i
+            for f in flowers:
+                f.remove_dependencies(next_flower.height)
 
-            flowers.pop(index)
+            order.append(next_flower.height)
+            flowers.remove(next_flower)
 
         return order
 
@@ -131,7 +144,7 @@ def run_tests():
 
     sys.stdout.write("\nPassed : %d / %d cases\n" % (passed, cases))
 
-    T = time.time() - 1552395506
+    T = time.time() - 1552523779
     PT, TT = (T / 60.0, 75.0)
     points = 500 * (0.3 + (0.7 * TT * TT) / (10.0 * PT * PT + TT * TT))
     sys.stdout.write("Time   : %d minutes %d secs\n" % (int(T/60), T%60))
