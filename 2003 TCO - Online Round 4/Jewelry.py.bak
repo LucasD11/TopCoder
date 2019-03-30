@@ -1,54 +1,61 @@
 # -*- coding: utf-8 -*-
 import math,string,itertools,fractions,heapq,collections,re,array,bisect
-from pprint import pprint
-
-
-def gen_cnk(max_n):
-    """
-    Get cnk by gen_cnk()[n][k]
-    """
-    nk = [[0 for _ in range(max_n+1)] for _ in range(max_n+1)]
-    nk[0][0] = 1
-    for n in range(1, max_n+1):
-        nk[n][0] = 1
-        for k in range(1, n+1):
-            nk[n][k] = nk[n-1][k-1] + nk[n-1][k]
-    return nk
-
-
-Cnk = gen_cnk(30)
-
 
 class Jewelry:
-    def _first_i_item_sum_to_j(self, values):
-        max_sum = sum(values)
-        l = len(values)
-        result = [[0 for _ in range(max_sum + 1)] for _ in range(l)]
-        for i, row in enumerate(result):
-            row[0] = 1
-            if i == 0:
-                continue
-            for j in range(1, len(row)):
-                row[j] += result[i-1][j]
-                row[j] += result[i-1][j-values[i-1]]
+    def _factorial(self, n):
+        result = 1
+        for i in range(2, n+1):
+            result *= i
         return result
 
+    def _c(self, m, n):
+        return self._factorial(n) // self._factorial(m) // self._factorial(n - m)
+
     def howMany(self, values):
-        values = sorted(values)
-        max_total = sum(values)
+        values = sorted(list(values))
 
-        B = self._first_i_item_sum_to_j(values)
-        F = self._first_i_item_sum_to_j(values[::-1])
+        # countsBob[i][j] means how many ways in values[:i+1] can sum up to j and used values[i]
+        tmp = {}
+        countsBob = [{} for _ in range(len(values))]
+        for i, v in enumerate(values):
+            countsBob[i][v] = 1
+            for k1, v1 in tmp.items():
+                if (k1 + v) not in countsBob[i]:
+                    countsBob[i][k1 + v] = 0
+                countsBob[i][v + k1] += tmp[k1]
+            for k1, v1 in countsBob[i].items():
+                if k1 not in tmp:
+                    tmp[k1] = 0
+                tmp[k1] += v1
 
+        # countsFrank[i][j] means how many ways in values[i:] can sum up to j
+        countsFrank = [{} for _ in range(len(values))]
+        for start in range(len(values)-1, -1, -1):
+            v = values[start]
+            countsFrank[start][v] = 1
+            if start + 1 >= len(values):
+                continue
+            for s, count in countsFrank[start+1].items():
+                s_new = s + v
+                if s_new not in countsFrank[start]:
+                    countsFrank[start][s_new] = 0
+                countsFrank[start][s_new] += count
+                if s not in countsFrank[start]:
+                    countsFrank[start][s] = 0
+                countsFrank[start][s] += count
+
+        # Calculate counts, pay attention to repeat numbers
         result = 0
-        for i in range(1, len(values)):
-            v_i = values[i-1]
-            c = values.count(v_i)
-            max_u = i - values.index(v_i)
-            for u in range(1, max_u + 1):
-                power = Cnk[c][u]
-                for bob_total in range(u*v_i, max_total + 1):
-                    result += power * B[i-u][bob_total - u * v_i] * F[- i][bob_total]
+
+        for bob_end_index, bob in enumerate(countsBob[:-1]):
+            s_result = 0
+            for s_bob, count in bob.items():
+                s_result += count * countsFrank[bob_end_index + 1].get(s_bob, 0)
+
+            bob_last = values[bob_end_index]
+            bob_last_in_bob = values[:bob_end_index+1].count(bob_last)
+            bob_last_total = values.count(bob_last)
+            result += s_result * self._c(bob_last_in_bob, bob_last_total)
         return result
 
 
