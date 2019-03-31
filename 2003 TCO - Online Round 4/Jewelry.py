@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import math,string,itertools,fractions,heapq,collections,re,array,bisect
-from pprint import pprint
+import copy
 
 
 def gen_cnk(max_n):
@@ -21,16 +20,18 @@ Cnk = gen_cnk(30)
 
 class Jewelry:
     def _first_i_item_sum_to_j(self, values):
-        max_sum = sum(values)
-        l = len(values)
-        result = [[0 for _ in range(max_sum + 1)] for _ in range(l)]
-        for i, row in enumerate(result):
-            row[0] = 1
+        total = sum(values)
+        result = [{} for _ in range(len(values))]
+        for i, value in enumerate(values):
+            result[i][value] = 1
             if i == 0:
                 continue
-            for j in range(1, len(row)):
-                row[j] += result[i-1][j]
-                row[j] += result[i-1][j-values[i-1]]
+            for prev in result[i-1]:
+                result[i][prev + value] = result[i-1][prev]
+            for prev in result[i-1]:
+                if prev not in result[i]:
+                    result[i][prev] = 0
+                result[i][prev] += result[i-1][prev]
         return result
 
     def howMany(self, values):
@@ -41,14 +42,15 @@ class Jewelry:
         F = self._first_i_item_sum_to_j(values[::-1])
 
         result = 0
-        for i in range(1, len(values)):
-            v_i = values[i-1]
-            c = values.count(v_i)
-            max_u = i - values.index(v_i)
-            for u in range(1, max_u + 1):
-                power = Cnk[c][u]
-                for bob_total in range(u*v_i, max_total + 1):
-                    result += power * B[i-u][bob_total - u * v_i] * F[- i][bob_total]
+        for i in range(len(values)-1):
+            v_i = values[i]
+            n = values.count(v_i)
+            k = values[:i+1].count(v_i)
+            for total in F[len(values) - i - 2]:
+                if total - v_i * k == 0:
+                    result += Cnk[n][k] * F[len(values) - i - 2][total]
+                elif total - v_i * k > 0 and i - k >= 0:
+                    result += Cnk[n][k] * F[len(values) - i - 2][total] * B[i - k].get(total - v_i * k, 0)
         return result
 
 
