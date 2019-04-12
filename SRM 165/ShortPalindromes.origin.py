@@ -6,52 +6,57 @@ import string, copy
 
 class ShortPalindromes:
     def shortest(self, base):
-        n = len(base)
-        # length[i][j] is the palindrome's length of base[i:j+1]
         length = [[0] * 50 for _ in range(50)]
-        # pad[i][j] is the method of generate palindrome of base[i][j+1]
         pad = [[0] * 50 for _ in range(50)]
+        n = len(base)
 
         for i in range(n):
             length[i][i] = 1
+            length[i+1][i] = 0
 
-        for l in range(2, n + 1):
+        for l in range(2, n+1):
             for i in range(n - l + 1):
                 j = i + l - 1
                 h, t = base[i], base[j]
+
                 if h == t:
                     length[i][j] = length[i+1][j-1] + 2
-                    pad[i][j] = 1
-                elif length[i+1][j] < length[i][j-1]:
+                    pad[i][j] = 3
+                    continue
+
+                if length[i+1][j] < length[i][j-1]:
                     length[i][j] = length[i+1][j] + 2
-                    pad[i][j] = 2
+                    pad[i][j] = 1
                 elif length[i+1][j] > length[i][j-1]:
                     length[i][j] = length[i][j-1] + 2
-                    pad[i][j] = 3
-                elif h < t:
-                    length[i][j] = length[i+1][j] + 2
                     pad[i][j] = 2
                 else:
-                    length[i][j] = length[i][j-1] + 2
-                    pad[i][j] = 3
+                    if h < t:
+                        length[i][j] = length[i+1][j] + 2
+                        pad[i][j] = 1
+                    else:
+                        length[i][j] = length[i][j-1] + 2
+                        pad[i][j] = 2
 
-        # Generate result
-        ans = ''
-        i, j = 0, n-1
+        # Backtracking to get answer
+        ans = ""
+        i, j, l = 0, n-1, 0
         while i < j:
-            if pad[i][j] == 1:
-                ans =  ans + base[i]
+            v = pad[i][j]
+            if v == 1:
+                ans += base[i]
+                i += 1
+            elif v == 2:
+                ans += base[j]
+                j -= 1
+            elif v == 3:
+                ans += base[i]
                 i += 1
                 j -= 1
-            elif pad[i][j] == 2:
-                ans = ans + base[i]
-                i += 1
-            elif pad[i][j] == 3:
-                ans = ans + base[j]
-                j -= 1
+            l += 1
 
         if i == j:
-            ans = ans + base[i]
+            ans += base[i]
 
         return ans[:-1] + ans[::-1]
 
