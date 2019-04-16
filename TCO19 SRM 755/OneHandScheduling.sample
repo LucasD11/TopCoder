@@ -1,0 +1,55 @@
+-- Example 0
+3
+10
+100
+236
+3
+47
+235
+347
+
+possible
+-- Example 1
+3
+100
+236
+10
+3
+235
+347
+47
+
+possible
+-- Example 2
+2
+10
+20
+2
+20
+30
+
+impossible
+-- Example 3
+3
+10
+400000
+500000
+3
+20
+600000
+700000
+
+impossible
+-- Example 4
+4
+1
+40
+50
+60
+4
+1000000
+41
+51
+61
+
+impossible
